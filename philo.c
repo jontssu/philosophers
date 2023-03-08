@@ -6,7 +6,7 @@
 /*   By: jole <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/06 15:44:17 by jole              #+#    #+#             */
-/*   Updated: 2023/03/08 18:58:31 by jole             ###   ########.fr       */
+/*   Updated: 2023/03/08 21:26:21 by jole             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ int	main(int argc, char **argv)
 	pthread_t		th[8];
 	int				i;
 	t_struct		args;
-	pthread_mutex_t	mutex;
 
 	if (argc < 5 || argc > 6)
 	{

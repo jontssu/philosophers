@@ -6,12 +6,42 @@
 /*   By: jole <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/08 12:54:26 by jole              #+#    #+#             */
-/*   Updated: 2023/03/08 18:56:39 by jole             ###   ########.fr       */
+/*   Updated: 2023/03/08 21:10:43 by jole             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
+int	ft_strncmp(const char *s1, const char *s2, size_t n)
+{
+	if (n == 0)
+		return (0);
+	while (n > 1 && *s1 == *s2 && *s1 != 0 && *s2 != 0)
+	{
+		n--;
+		s1++;
+		s2++;
+	}
+	return ((unsigned char)*s1 - (unsigned char)*s2);
+}
+
+int	ft_isdigit(int c)
+{
+	return (c >= '0' && c <= '9');
+}
+
+size_t	ft_strlen(const char *s)
+{
+	size_t	len;
+
+	len = 0;
+	while (*s != '\0')
+	{
+		len++;
+		s++;
+	}
+	return (len);
+}
 void	parse_args(int argc, char **argv, t_struct *args)
 {
 	int	i;

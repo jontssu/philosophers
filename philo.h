@@ -5,6 +5,8 @@
 # include <pthread.h>
 # include <unistd.h>
 
+typedef pthread_mutex_t t_fork;
+
 typedef struct s_struct
 {
 	int				philos;
@@ -16,5 +18,6 @@ typedef struct s_struct
 
 int		ft_atoi(const char *str);
 void	parse_args(int argc, char **argv, t_struct *args);
+int		check_valid_argument(char *str);
 
 #endif
