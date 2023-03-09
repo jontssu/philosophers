@@ -1,10 +1,10 @@
 NAME = philo
 
-SRC = philo.c ft_atoi.c parse_args.c
+SRC = philo.c ft_atoi.c parse_args.c create_fork_and_philos.c
 
 OSRC = $(SRC:%.c=%.o)
 
-WWW = -Wall -Wextra -Werror
+WWW = -Wall -Wextra -Werror -g
 
 .PHONY: all clean fclean re
 

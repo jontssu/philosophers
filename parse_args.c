@@ -6,7 +6,7 @@
 /*   By: jole <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 13:11:19 by jole              #+#    #+#             */
-/*   Updated: 2023/03/09 14:32:32 by jole             ###   ########.fr       */
+/*   Updated: 2023/03/09 15:49:30 by jole             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	parse_args(int argc, char **argv, t_struct *args)
 	int	i;
 
 	i = 0;
-	while (i < argc)
+	while (i < argc - 1)
  	{
 		if (check_valid_argument(argv[1 + i]) == -1)
 			return (-1);
@@ -28,8 +28,9 @@ int	parse_args(int argc, char **argv, t_struct *args)
 	args->time_to_eat = ft_atoi(argv[3]);
 	args->time_to_sleep = ft_atoi(argv[4]);
 	args->id = 0;
-	if (argv[5] != NULL)
+	if (argv[5] != NULL && argc == 5)
 		args->times_to_eat = ft_atoi(argv[5]);
+	return (0);
 }
 
 int	check_valid_argument(char *str)
