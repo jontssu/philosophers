@@ -1,6 +1,6 @@
 NAME = philo
 
-SRC = philo.c ft_atoi.c functions.c
+SRC = philo.c ft_atoi.c parse_args.c
 
 OSRC = $(SRC:%.c=%.o)
 

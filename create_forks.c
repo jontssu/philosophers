@@ -1,31 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   philo.c                                            :+:      :+:    :+:   */
+/*   create_forks.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jole <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/06 15:44:17 by jole              #+#    #+#             */
-/*   Updated: 2023/03/09 15:05:03 by jole             ###   ########.fr       */
+/*   Created: 2023/03/09 14:25:31 by jole              #+#    #+#             */
+/*   Updated: 2023/03/09 15:12:58 by jole             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int	main(int argc, char **argv)
+int	create_forks(t_struct *args)
 {
-	int				i;
-	t_struct		args;
+	int	i;
 
-	if (argc < 5 || argc > 6)
+	i = 0
+	while (i < args->philos)
 	{
-		printf("Invalid amount of arguments");
-		return (0);
+		if (pthread_mutex_init(&args->forks[i], NULL))
+			return (-1);
+		i++;
 	}
-	if (parse_args(argc, argv, &args) == -1);
-		return (-1);
-	if (create_forks(&args) == -1);
-		return (-1);
-	create_philos(&args);
 	return (0);
+}
+
+int	create_philos(t_struct *args)
+{
+	int	i;
+
+	i = 0;
+	while (i < args->philos)
+	{
+		if (
+		i++;
+	}
 }
