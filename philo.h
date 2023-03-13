@@ -7,17 +7,20 @@
 # include <stdio.h>
 # include <string.h>
 
-typedef pthread_mutex_t t_fork;
-typedef	struct s_philo t_philo;
+typedef pthread_mutex_t	t_fork;
+typedef	struct s_philo	t_philo;
+typedef	long long		t_microsec;
 
 typedef struct s_struct
 {
 	int				p_count;
-	int				time_to_die;
-	int				time_to_eat;
-	int				time_to_sleep;
+	t_microsec		time_to_die;
+	t_microsec		time_to_eat;
+	t_microsec		time_to_sleep;
 	int				times_to_eat;
+	t_microsec		start_time;
 	t_philo			*philosophers;
+	pthread_mutex_t	sim_state;
 	pthread_mutex_t	*forks;	
 }				t_struct;
 
@@ -39,9 +42,13 @@ int		ft_isdigit(int c);
 int		create_forks(t_struct *args);
 int		create_philos(t_struct *args);
 int		create_threads(t_struct *args);
+size_t	calc_time(t_struct *args);
 int		wait_all(t_struct *args);
 int		destroy_mutexes(t_struct *args);
 void	*ft_calloc(size_t count, size_t size);
 void	ft_bzero(void *s, size_t n);
+int		simulation(t_philo *philosopher);
+int		eat(t_philo *philosopher);
+int		philo_wait(t_philo *philosopher);
 
 #endif

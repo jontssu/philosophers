@@ -6,7 +6,7 @@
 /*   By: jole <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/06 15:44:17 by jole              #+#    #+#             */
-/*   Updated: 2023/03/11 01:12:04 by jole             ###   ########.fr       */
+/*   Updated: 2023/03/13 20:30:16 by jole             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,17 @@ int	main(int argc, char **argv)
 		return (-1);
 	if (create_forks(&args) == -1)
 		return (-1);
+	if (create_philos(&args) == -1)
+		return (-1);
+	if (pthread_mutex_init(&args.sim_state, NULL))
+		return (-1);
+	if (pthread_mutex_lock(&args.sim_state))
+		return (-1);
 	if (create_threads(&args) == -1)
+		return (-1);
+	if (calc_time(&args) == 1)
+		return (-1);
+	if (pthread_mutex_unlock(&args.sim_state))
 		return (-1);
 	if (wait_all(&args) == -1)
 		return (-1);

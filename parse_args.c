@@ -6,7 +6,7 @@
 /*   By: jole <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 13:11:19 by jole              #+#    #+#             */
-/*   Updated: 2023/03/11 01:34:20 by jole             ###   ########.fr       */
+/*   Updated: 2023/03/13 20:30:19 by jole             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,8 @@ int	parse_args(int argc, char **argv, t_struct *args) // check if > 0
 	args->time_to_sleep = ft_atoi(argv[4]);
 	if (argv[5] != NULL && argc == 5)
 		args->times_to_eat = ft_atoi(argv[5]);
-	if (check_if_argument_above_zero(args, argc) == -1)
-		return (-1);
+//	if (check_if_argument_above_zero(args, argc) == -1)
+//		return (-1);
 	return (0);
 }
 
