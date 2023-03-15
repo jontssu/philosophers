@@ -6,7 +6,7 @@
 /*   By: jole <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 15:21:14 by jole              #+#    #+#             */
-/*   Updated: 2023/03/14 17:06:52 by jole             ###   ########.fr       */
+/*   Updated: 2023/03/15 17:59:06 by jole             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,21 @@ void	*routine(void *philosopher)
 	return (0);
 }
 
+int	is_dead(t_philo *philosopher, t_microsec time)
+{
+	if (pthread_mutex_lock(&philosopher->args->sim_state))
+		return (0);
+	if (time >= philosopher->last_eaten + philosopher->args->time_to_die)
+	{
+		printf("%lld %d has died\n", time / 1000, philosopher->id);
+		philosopher->args->has_sim_ended = 1;
+		return (-1);
+	}
+	if (pthread_mutex_unlock(&philosopher->args->sim_state))
+		return (0);
+	return (0);
+}
+
 int	simulation(t_philo *philosopher)
 {
 	t_microsec	time;
@@ -49,6 +64,8 @@ int	simulation(t_philo *philosopher)
 	while (1)
 	{
 		time = calc_time(philosopher->args);
+		if (is_dead(philosopher, time))
+			break ;	
 		printf("%lld %d is thinking\n", time / 1000, philosopher->id);
 		eat(philosopher);
 		go_sleep(philosopher);
@@ -65,25 +82,31 @@ int	eat(t_philo *philosopher)
 		if (pthread_mutex_lock(philosopher->right))
 			return (-1);
 		time = calc_time(philosopher->args);
-		printf("%lld %d has taken a fork\n", time / 1000, philosopher->id);
+		if (philosopher->args->has_sim_ended == 0)
+			printf("%lld %d has taken a fork\n", time / 1000, philosopher->id);
 		if (pthread_mutex_lock(philosopher->left))
 			return (-1);
 		time = calc_time(philosopher->args);
-		printf("%lld %d has taken a fork\n", time / 1000, philosopher->id);
+		if (philosopher->args->has_sim_ended == 0)
+			printf("%lld %d has taken a fork\n", time / 1000, philosopher->id);
 	}
 	if (philosopher->id % 2 == 1)
 	{
 		if (pthread_mutex_lock(philosopher->left))
 			return (-1);
 		time = calc_time(philosopher->args);
-		printf("%lld %d has taken a fork\n", time / 1000, philosopher->id);
+		if (philosopher->args->has_sim_ended == 0)
+			printf("%lld %d has taken a fork\n", time / 1000, philosopher->id);
 		if (pthread_mutex_lock(philosopher->right))
 			return (-1);
 		time = calc_time(philosopher->args);
-		printf("%lld %d has taken a fork\n", time / 1000, philosopher->id);
+		if (philosopher->args->has_sim_ended == 0)
+			printf("%lld %d has taken a fork\n", time / 1000, philosopher->id);
 	}
 	time = calc_time(philosopher->args);
-	printf("%lld %d is eating\n", time / 1000, philosopher->id);
+	philosopher->last_eaten = time;
+	if (philosopher->args->has_sim_ended == 0)
+		printf("%lld %d is eating\n", time / 1000, philosopher->id);
 	philo_wait(philosopher, philosopher->args->time_to_eat);
 	if (pthread_mutex_unlock(philosopher->right))
 		return (-1);
@@ -97,7 +120,8 @@ int	go_sleep(t_philo *philosopher)
 	t_microsec	time;
 
 	time = calc_time(philosopher->args);
-	printf("%lld %d is sleeping\n", time / 1000, philosopher->id);
+	if (philosopher->args->has_sim_ended == 0)
+		printf("%lld %d is sleeping\n", time / 1000, philosopher->id);
 	philo_wait(philosopher, philosopher->args->time_to_sleep);
 	return (0);
 }
