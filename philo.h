@@ -20,7 +20,7 @@ typedef struct s_struct
 	int				times_to_eat;
 	int				has_sim_ended;
 	t_microsec		start_time;
-	t_philo			*philosophers;
+	t_philo			*philosopher;
 	pthread_mutex_t	sim_state;
 	pthread_mutex_t	*forks;	
 }				t_struct;
@@ -35,24 +35,28 @@ typedef struct s_philo
 	t_struct		*args;
 }				t_philo;
 
-int		ft_atoi(const char *str);
-int		parse_args(int argc, char **argv, t_struct *args);
-int		check_valid_argument(char *str);
-int		check_if_argument_above_zero(t_struct *args, int argc);
-int		ft_strncmp(const char *s1, const char *s2, size_t n);
-int		ft_isdigit(int c);
-int		create_forks(t_struct *args);
+int			ft_atoi(const char *str);
+int			parse_args(int argc, char **argv, t_struct *args);
+int			check_valid_argument(char *str);
+int			check_if_argument_above_zero(t_struct *args, int argc);
+int			ft_strncmp(const char *s1, const char *s2, size_t n);
+int			ft_isdigit(int c);
+int			create_forks(t_struct *args);
 int			create_philos(t_struct *args);
-int		create_threads(t_struct *args);
+int			create_threads(t_struct *args);
 t_microsec	calc_time(t_struct *args);
-int		wait_all(t_struct *args);
-int		destroy_mutexes(t_struct *args);
-void	*ft_calloc(size_t count, size_t size);
-void	ft_bzero(void *s, size_t n);
-int		is_dead(t_philo *philosopher, t_microsec time);
-int		simulation(t_philo *philosopher);
-int		eat(t_philo *philosopher);
-int		go_sleep(t_philo *philosopher);
-int		philo_wait(t_philo *philosopher, t_microsec arg);
+int			wait_all(t_struct *args);
+int			destroy_mutexes(t_struct *args);
+void		*ft_calloc(size_t count, size_t size);
+void		ft_bzero(void *s, size_t n);
+int			is_dead(t_philo *philosopher, t_microsec time);
+int			monitor(t_struct *args);
+int			simulation(t_philo *philosopher);
+void		*routine(void *philosopher);
+void		set_forks(t_fork **fork1, t_fork **fork2, t_philo *philosopher);
+int			eat(t_philo *philosopher);
+int			go_sleep(t_philo *philosopher);
+int			print_state(t_philo *philosopher, char *state);
+int			philo_wait(t_philo *philosopher, t_microsec arg);
 
 #endif

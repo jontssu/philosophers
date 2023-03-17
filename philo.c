@@ -6,11 +6,50 @@
 /*   By: jole <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/06 15:44:17 by jole              #+#    #+#             */
-/*   Updated: 2023/03/13 20:30:16 by jole             ###   ########.fr       */
+/*   Updated: 2023/03/17 21:16:12 by jole             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+
+int	is_dead(t_philo *philosopher, t_microsec time)
+{
+	if (pthread_mutex_lock(&philosopher->args->sim_state))
+		return (0);
+	if (time >= philosopher->last_eaten + philosopher->args->time_to_die && philosopher->args->has_sim_ended == 0)
+	{
+		printf("%lld %d died\n", time / 1000, philosopher->id);
+		philosopher->args->has_sim_ended = 1;
+		pthread_mutex_unlock(&philosopher->args->sim_state);
+		return (-1);
+	}
+	if (pthread_mutex_unlock(&philosopher->args->sim_state))
+		return (0);
+	return (0);
+}
+
+int	monitor(t_struct *args)
+{
+	int	i;
+	int	game_has_ended;
+
+	game_has_ended = 0;
+	while (game_has_ended == 0)
+	{
+		i = 0;
+		while (i < args->p_count)
+		{
+			if (is_dead(&args->philosopher[i], calc_time(args)))
+			{
+				game_has_ended = 1;
+				break ;
+			}
+			i++;
+		}
+		usleep(1000);
+	}
+	return (0);
+}
 
 int	main(int argc, char **argv)
 {
@@ -37,6 +76,8 @@ int	main(int argc, char **argv)
 	if (calc_time(&args) == 1)
 		return (-1);
 	if (pthread_mutex_unlock(&args.sim_state))
+		return (-1);
+	if (monitor(&args))
 		return (-1);
 	if (wait_all(&args) == -1)
 		return (-1);
