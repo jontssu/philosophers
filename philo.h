@@ -18,7 +18,7 @@ typedef struct s_struct
 	t_microsec		time_to_eat;
 	t_microsec		time_to_sleep;
 	int				times_to_eat;
-	int				has_sim_ended;
+	int				sim_ended;
 	t_microsec		start_time;
 	t_philo			*philosopher;
 	pthread_mutex_t	sim_state;
@@ -29,6 +29,7 @@ typedef struct s_philo
 {
 	pthread_t		thread;
 	int				id;
+	int				times_eaten;
 	t_microsec		last_eaten;
 	pthread_mutex_t *left;
 	pthread_mutex_t *right;
@@ -50,6 +51,7 @@ int			destroy_mutexes(t_struct *args);
 void		*ft_calloc(size_t count, size_t size);
 void		ft_bzero(void *s, size_t n);
 int			is_dead(t_philo *philosopher, t_microsec time);
+int			enough_times_eaten_check(t_struct *args);
 int			monitor(t_struct *args);
 int			simulation(t_philo *philosopher);
 void		*routine(void *philosopher);

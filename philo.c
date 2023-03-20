@@ -6,7 +6,7 @@
 /*   By: jole <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/06 15:44:17 by jole              #+#    #+#             */
-/*   Updated: 2023/03/17 21:16:12 by jole             ###   ########.fr       */
+/*   Updated: 2023/03/20 18:29:59 by jole             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,23 +15,24 @@
 int	is_dead(t_philo *philosopher, t_microsec time)
 {
 	if (pthread_mutex_lock(&philosopher->args->sim_state))
-		return (0);
-	if (time >= philosopher->last_eaten + philosopher->args->time_to_die && philosopher->args->has_sim_ended == 0)
-	{
-		printf("%lld %d died\n", time / 1000, philosopher->id);
-		philosopher->args->has_sim_ended = 1;
-		pthread_mutex_unlock(&philosopher->args->sim_state);
 		return (-1);
+	if (time - philosopher->last_eaten >= philosopher->args->time_to_die)
+	{
+		if (philosopher->args->sim_ended == 0)
+			printf("%lld %d died\n", time / 1000, philosopher->id);
+		philosopher->args->sim_ended = 1;
+		pthread_mutex_unlock(&philosopher->args->sim_state);
+		return (1);
 	}
 	if (pthread_mutex_unlock(&philosopher->args->sim_state))
-		return (0);
+		return (-1);
 	return (0);
 }
 
 int	monitor(t_struct *args)
 {
-	int	i;
-	int	game_has_ended;
+	int			i;
+	int			game_has_ended;
 
 	game_has_ended = 0;
 	while (game_has_ended == 0)
@@ -39,14 +40,40 @@ int	monitor(t_struct *args)
 		i = 0;
 		while (i < args->p_count)
 		{
-			if (is_dead(&args->philosopher[i], calc_time(args)))
+			if (is_dead(&args->philosopher[i], calc_time(args)) || \
+				   	enough_times_eaten_check(args))
 			{
+				if (pthread_mutex_lock(&args->sim_state))
+					return (-1);
 				game_has_ended = 1;
-				break ;
+				if (pthread_mutex_unlock(&args->sim_state))
+					return (-1);
+				return (0);
 			}
 			i++;
 		}
-		usleep(1000);
+		usleep(5000);
+	}
+	return (0);
+}
+
+int	enough_times_eaten_check(t_struct *args)
+{
+	int	i;
+	int	x;
+
+	i = 0;
+	x = 0;
+	while (i < args->p_count)
+	{
+		if (args->philosopher[i].times_eaten >= args->times_to_eat)
+			x++;
+		i++;
+	}
+	if (x == args->p_count)
+	{
+		args->sim_ended = 1;
+		return (1);
 	}
 	return (0);
 }

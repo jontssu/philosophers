@@ -6,7 +6,7 @@
 /*   By: jole <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 13:11:19 by jole              #+#    #+#             */
-/*   Updated: 2023/03/17 15:11:05 by jole             ###   ########.fr       */
+/*   Updated: 2023/03/20 18:30:01 by jole             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	parse_args(int argc, char **argv, t_struct *args) // check if > 0
 	args->time_to_die = 1000 * ft_atoi(argv[2]);
 	args->time_to_eat = 1000 * ft_atoi(argv[3]);
 	args->time_to_sleep = 1000 *ft_atoi(argv[4]);
-	if (argv[5] != NULL && argc == 5)
+	if (argv[5] != NULL)
 		args->times_to_eat = ft_atoi(argv[5]);
 //	if (check_if_argument_above_zero(args, argc) == -1)
 //		return (-1);

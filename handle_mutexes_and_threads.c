@@ -6,7 +6,7 @@
 /*   By: jole <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/17 15:19:52 by jole              #+#    #+#             */
-/*   Updated: 2023/03/17 15:29:25 by jole             ###   ########.fr       */
+/*   Updated: 2023/03/20 16:56:44 by jole             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,10 +41,7 @@ int	create_philos(t_struct *args)
 	{
 		args->philosopher[i].id = i + 1;
 		args->philosopher[i].args = args;
-		if (i + 1 < args->p_count)
-			args->philosopher[i].right = &args->forks[i];
-		else
-			args->philosopher[i].right = &args->forks[0];
+		args->philosopher[i].right = &args->forks[i];
 		if (i)
 			args->philosopher[i].left = &args->forks[i - 1];
 		else
