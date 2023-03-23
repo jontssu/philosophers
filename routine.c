@@ -6,7 +6,7 @@
 /*   By: jole <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/17 15:11:25 by jole              #+#    #+#             */
-/*   Updated: 2023/03/20 18:30:03 by jole             ###   ########.fr       */
+/*   Updated: 2023/03/23 15:48:26 by jole             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,11 @@ int	eat(t_philo *philosopher)
 		pthread_mutex_unlock(fork1);
 		return (-1);
 	}
+	if (fork1 == fork2)
+	{
+		pthread_mutex_unlock(fork1);
+		return (-1);
+	}
 	if (pthread_mutex_lock(fork2))
 		return (-1);
 	if (print_state(philosopher, "has taken a fork\n"))
@@ -116,23 +121,5 @@ int	go_sleep(t_philo *philosopher)
 	if (print_state(philosopher, "is sleeping\n"))
 		return (-1);
 	philo_wait(philosopher, philosopher->args->time_to_sleep);
-	return (0);
-}
-
-int	print_state(t_philo *philosopher, char *state)
-{
-	if (pthread_mutex_lock(&philosopher->args->sim_state))
-		return (-1);
-	if (philosopher->args->sim_ended == 0)
-	{
-		printf("%lld %d %s", calc_time(philosopher->args) / 1000 , philosopher->id, state);
-	}
-	else
-	{
-		pthread_mutex_unlock(&philosopher->args->sim_state);
-		return (-1);
-	}
-	if (pthread_mutex_unlock(&philosopher->args->sim_state))
-		return (-1);
 	return (0);
 }

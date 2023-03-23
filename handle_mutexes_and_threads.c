@@ -6,7 +6,7 @@
 /*   By: jole <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/17 15:19:52 by jole              #+#    #+#             */
-/*   Updated: 2023/03/20 16:56:44 by jole             ###   ########.fr       */
+/*   Updated: 2023/03/23 15:43:17 by jole             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ int	create_threads(t_struct *args)
 	while (i < args->p_count)
 	{
 		if (pthread_create(&args->philosopher[i].thread, NULL, \
-				   	routine, &args->philosopher[i]) != 0)
+					routine, &args->philosopher[i]) != 0)
 		{
 			printf("Failed to create a thread");
 			return (-1);
@@ -94,7 +94,7 @@ int	destroy_mutexes(t_struct *args)
 	while (i < args->p_count)
 	{
 		if (!pthread_mutex_destroy(&args->forks[i]))
-			return (-1);	
+			return (-1);
 		i++;
 	}
 	return (0);

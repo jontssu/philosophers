@@ -6,7 +6,7 @@
 /*   By: jole <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/17 15:15:44 by jole              #+#    #+#             */
-/*   Updated: 2023/03/17 15:43:52 by jole             ###   ########.fr       */
+/*   Updated: 2023/03/23 15:43:46 by jole             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ void	ft_bzero(void *s, size_t n)
 		i++;
 	}
 }
+
 void	*ft_calloc(size_t count, size_t size)
 {
 	void	*ptr;

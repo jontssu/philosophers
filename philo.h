@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   philo.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jole <marvin@42.fr>                        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/03/23 15:39:41 by jole              #+#    #+#             */
+/*   Updated: 2023/03/23 15:40:33 by jole             ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef PHILO_H
 # define PHILO_H
 # include <stdlib.h>
@@ -8,8 +20,8 @@
 # include <string.h>
 
 typedef pthread_mutex_t	t_fork;
-typedef	struct s_philo	t_philo;
-typedef	long long		t_microsec;
+typedef struct s_philo	t_philo;
+typedef long long		t_microsec;
 
 typedef struct s_struct
 {
@@ -31,8 +43,8 @@ typedef struct s_philo
 	int				id;
 	int				times_eaten;
 	t_microsec		last_eaten;
-	pthread_mutex_t *left;
-	pthread_mutex_t *right;
+	pthread_mutex_t	*left;
+	pthread_mutex_t	*right;
 	t_struct		*args;
 }				t_philo;
 
