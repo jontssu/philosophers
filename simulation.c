@@ -6,24 +6,11 @@
 /*   By: jole <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/17 15:11:25 by jole              #+#    #+#             */
-/*   Updated: 2023/03/23 15:48:26 by jole             ###   ########.fr       */
+/*   Updated: 2023/03/24 15:42:45 by jole             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
-
-void	*routine(void *philosopher)
-{
-	t_philo	*ptr;
-
-	ptr = (t_philo *)philosopher;
-	if (pthread_mutex_lock(&ptr->args->sim_state))
-		return (0);
-	if (pthread_mutex_unlock(&ptr->args->sim_state))
-		return (0);
-	simulation(ptr);
-	return (0);
-}
 
 int	simulation(t_philo *philosopher)
 {
@@ -46,7 +33,7 @@ int	simulation(t_philo *philosopher)
 		}
 		else if (philosopher->args->p_count % 2 == 1)
 			philo_wait(philosopher, philosopher->args->time_to_eat - 5000);
-		if (eat(philosopher))
+		if (pick_up_forks(philosopher))
 			return (-1);
 		if (go_sleep(philosopher))
 			return (-1);
@@ -68,7 +55,7 @@ void	set_forks(t_fork **fork1, t_fork **fork2, t_philo *philosopher)
 	}
 }
 
-int	eat(t_philo *philosopher)
+int	pick_up_forks(t_philo *philosopher)
 {
 	t_fork	*fork1;
 	t_fork	*fork2;
@@ -88,6 +75,12 @@ int	eat(t_philo *philosopher)
 	}
 	if (pthread_mutex_lock(fork2))
 		return (-1);
+	eat(philosopher, fork1, fork2);
+	return (0);
+}
+
+int	eat(t_philo *philosopher, t_fork *fork1, t_fork *fork2)
+{
 	if (print_state(philosopher, "has taken a fork\n"))
 	{
 		pthread_mutex_unlock(fork1);
@@ -109,17 +102,15 @@ int	eat(t_philo *philosopher)
 	if (pthread_mutex_unlock(&philosopher->args->sim_state))
 		return (-1);
 	philo_wait(philosopher, philosopher->args->time_to_eat);
+	return_forks(fork1, fork2);
+	return (0);
+}
+
+int	return_forks(t_fork *fork1, t_fork *fork2)
+{
 	if (pthread_mutex_unlock(fork1))
 		return (-1);
 	if (pthread_mutex_unlock(fork2))
 		return (-1);
-	return (0);
-}
-
-int	go_sleep(t_philo *philosopher)
-{
-	if (print_state(philosopher, "is sleeping\n"))
-		return (-1);
-	philo_wait(philosopher, philosopher->args->time_to_sleep);
 	return (0);
 }

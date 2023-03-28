@@ -6,7 +6,7 @@
 /*   By: jole <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 13:11:19 by jole              #+#    #+#             */
-/*   Updated: 2023/03/23 15:50:59 by jole             ###   ########.fr       */
+/*   Updated: 2023/03/24 15:15:01 by jole             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,22 +70,4 @@ int	check_if_argument_above_zero(t_struct *args, int argc)
 	if (argc == 6 && args->times_to_eat < 1)
 		return (-1);
 	return (0);
-}
-
-int	ft_strncmp(const char *s1, const char *s2, size_t n)
-{
-	if (n == 0)
-		return (0);
-	while (n > 1 && *s1 == *s2 && *s1 != 0 && *s2 != 0)
-	{
-		n--;
-		s1++;
-		s2++;
-	}
-	return ((unsigned char)*s1 - (unsigned char)*s2);
-}
-
-int	ft_isdigit(int c)
-{
-	return (c >= '0' && c <= '9');
 }

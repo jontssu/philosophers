@@ -6,36 +6,11 @@
 /*   By: jole <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/17 15:15:44 by jole              #+#    #+#             */
-/*   Updated: 2023/03/23 15:43:46 by jole             ###   ########.fr       */
+/*   Updated: 2023/03/24 15:23:14 by jole             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
-
-int	philo_wait(t_philo *philosopher, t_microsec arg)
-{
-	t_microsec	time;
-
-	time = calc_time(philosopher->args);
-	while (time + arg > calc_time(philosopher->args))
-	{
-		usleep(500);
-	}
-	return (0);
-}
-
-t_microsec	calc_time(t_struct *args)
-{
-	struct timeval	tv;
-	t_microsec		time;
-
-	if (gettimeofday(&tv, NULL))
-		return (1);
-	time = (tv.tv_sec * 1000 * 1000) + tv.tv_usec;
-	if (args->start_time == 0)
-		args->start_time = time;
-	return (time - args->start_time);
-}
 
 void	ft_bzero(void *s, size_t n)
 {
@@ -64,4 +39,50 @@ void	*ft_calloc(size_t count, size_t size)
 		return (0);
 	ft_bzero(ptr, (count * size));
 	return (ptr);
+}
+
+int	ft_strncmp(const char *s1, const char *s2, size_t n)
+{
+	if (n == 0)
+		return (0);
+	while (n > 1 && *s1 == *s2 && *s1 != 0 && *s2 != 0)
+	{
+		n--;
+		s1++;
+		s2++;
+	}
+	return ((unsigned char)*s1 - (unsigned char)*s2);
+}
+
+int	ft_isdigit(int c)
+{
+	return (c >= '0' && c <= '9');
+}
+
+int	ft_atoi(const char *str)
+{
+	long long	nb;
+	int			is_negative;
+
+	nb = 0;
+	is_negative = 1;
+	while (*str == 32 || (*str >= 9 && *str <= 13))
+		str++;
+	if (*str == '-' || *str == '+')
+	{
+		if (*str == '-')
+			is_negative = -1;
+		str++;
+	}
+	while (*str >= '0' && *str <= '9')
+	{
+		nb = nb * 10 + (*str++ - 48);
+		if (nb < 0)
+		{
+			if (is_negative == 1)
+				return (-1);
+			return (0);
+		}
+	}
+	return (nb * is_negative);
 }
